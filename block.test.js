@@ -20,6 +20,8 @@ describe("Genesis", ()=>{
 
     const genesisBlock = Block.genesis();
 
+    console.log(`genesisBlock : ${genesisBlock}`);
+
     it("returns a block instance",()=>{
 
         expect(genesisBlock instanceof Block).toBe(true);

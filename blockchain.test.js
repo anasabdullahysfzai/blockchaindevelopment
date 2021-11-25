@@ -2,6 +2,8 @@ const Blockchain = require("./blockchain");
 const Block = require("./block");
 
 let blockchain;
+let newChain;
+let originalChain;
 
 describe("Blockchain",()=>{
 
@@ -12,8 +14,10 @@ describe("Blockchain",()=>{
         //Initiate Blockchain before running each test
 
         blockchain = new Blockchain();
+        newChain = new Blockchain();
 
-        console.log("Initiated new Blockchain Instance");
+        //Set Original Chain to blockchain
+        originalChain = blockchain;
 
     })
 
@@ -108,5 +112,62 @@ describe("Blockchain",()=>{
         });
 
     })   
+
+    describe("replaceChain()",()=>{
+
+        describe("The new chain is of same length and not longer",()=>{
+
+            it("does not change the chain",()=>{
+
+                newChain.chain[0].data = {new:"data"};
+
+                blockchain.replaceChain(newChain.chain);
+
+                expect(blockchain.chain).toEqual(originalChain.chain);
+
+            });
+
+        })
+
+        describe("The new chain is longer",()=>{
+
+            beforeEach(()=>{
+
+                newChain.addBlock({data: "Bears"});
+                newChain.addBlock({data: "Beets"});
+                newChain.addBlock({data: "Battlestar Galactica"});
+
+            });
+            
+            describe("but the chain is invalid",()=>{
+
+                it("does not change the chain",()=>{
+                    
+                    newChain.chain[1].data = "fake-block-data"
+
+                    blockchain.replaceChain(newChain.chain);
+
+                    expect(blockchain.chain).toEqual(originalChain.chain);
+
+                });
+
+            })
+
+            describe("and the chain is valid",()=>{
+
+                it("replaces the chain",()=>{
+
+                    blockchain.replaceChain(newChain.chain);
+
+                    expect(blockchain.chain).toEqual(newChain.chain);
+
+
+                });
+
+            })
+
+        })
+
+    })
 
 })

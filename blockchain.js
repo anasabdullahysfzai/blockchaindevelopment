@@ -15,6 +15,24 @@ class Blockchain {
         this.chain.push(newBlock);
     }
 
+    replaceChain(chain)
+    {
+        //If the chain length is same
+        if(chain.length <= this.chain.length)
+        {
+            console.error("The incoming chain must be longer")
+            return;
+        }
+
+        if(!Blockchain.isValidChain(chain))
+        {
+            console.error("The incoming chain must be valid")
+            return;
+        }
+
+        this.chain = chain;
+    }
+
     static isValidChain(chain)
     {
         //When chain doesnt start with genesis block
@@ -55,7 +73,6 @@ class Blockchain {
 
         return true;
     }
-
 }
 
 module.exports = Blockchain;

@@ -55,11 +55,11 @@ class Blockchain {
         //When block has invalid field
         for(let i = 1; i<chain.length ; i++)
         {
-            let {timestamp,data,lastHash,hash} = chain[i];
+            let {timestamp,data,lastHash,hash,nonce,difficulty} = chain[i];
 
             console.log(`This block = \n data:${data} \n lastHash: ${lastHash} \n timestamp: ${timestamp}`);
             
-            let newHash = cryptoHash(timestamp,lastHash,data);
+            let newHash = cryptoHash(timestamp,lastHash,data,nonce,difficulty);
 
             //If the new calculated hash doesnt match the actual hash then it means that some data has been changed ,
             //so return false

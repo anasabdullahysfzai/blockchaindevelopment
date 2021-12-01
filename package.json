@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "hex-to-binary": "^1.0.1"
   },
   "devDependencies": {
     "jest": "^23.6.0"

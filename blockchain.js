@@ -57,6 +57,8 @@ class Blockchain {
         {
             let {timestamp,data,lastHash,hash,nonce,difficulty} = chain[i];
 
+            let lastDifficulty = chain[i-1].difficulty;
+
             console.log(`This block = \n data:${data} \n lastHash: ${lastHash} \n timestamp: ${timestamp}`);
             
             let newHash = cryptoHash(timestamp,lastHash,data,nonce,difficulty);
@@ -67,6 +69,13 @@ class Blockchain {
             {
                 console.log("Invalid Hash");
 
+                return false;
+            }
+
+            //Check Difficulty Jump
+            
+            if(Math.abs(lastDifficulty-difficulty) > 1)
+            {
                 return false;
             }
         }

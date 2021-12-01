@@ -1,5 +1,6 @@
 const Blockchain = require("./blockchain");
 const Block = require("./block");
+const cryptoHash = require("./crypto-hash");
 
 let blockchain;
 let newChain;
@@ -108,6 +109,54 @@ describe("Blockchain",()=>{
                 });
             
             });
+
+            describe("and the `chain` has a negative jumped difficulty", ()=>{
+
+                it("returns false",()=>{
+
+                    let lastBlock = blockchain.chain[blockchain.chain.length-1];
+                    let lastHash = lastBlock.hash;
+
+                    let timestamp = Date.now();
+                    let data = [];
+                    let nonce = 0;
+                    let difficulty = lastBlock.difficulty-3;
+
+                    let hash = cryptoHash(timestamp,lastHash,data,nonce,difficulty);
+
+                    let badBlock = new Block({timestamp,lastHash,hash,data,nonce,difficulty});
+
+                    blockchain.chain.push(badBlock);
+
+                    expect(Blockchain.isValidChain(blockchain.chain)).toBe(false);
+
+                })
+
+            })
+
+            describe("and the `chain` has a positive jumped difficulty", ()=>{
+
+                it("returns false",()=>{
+
+                    let lastBlock = blockchain.chain[blockchain.chain.length-1];
+                    let lastHash = lastBlock.hash;
+
+                    let timestamp = Date.now();
+                    let data = [];
+                    let nonce = 0;
+                    let difficulty = lastBlock.difficulty+3;
+
+                    let hash = cryptoHash(timestamp,lastHash,data,nonce,difficulty);
+
+                    let badBlock = new Block({timestamp,lastHash,hash,data,nonce,difficulty});
+
+                    blockchain.chain.push(badBlock);
+
+                    expect(Blockchain.isValidChain(blockchain.chain)).toBe(false);
+
+                })
+
+            })
 
         });
 

@@ -8,6 +8,8 @@ let timeTaken = [];
 
 blockchain.addBlock({data: "Test"});
 
+console.log(`First Block: `+ JSON.stringify(blockchain.chain[blockchain.chain.length-1]));
+
 for (let i = 0;i<10000;i++)
 {
 

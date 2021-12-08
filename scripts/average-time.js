@@ -1,4 +1,4 @@
-let Blockchain = require('./blockchain.js');
+let Blockchain = require('..//blockchain');
 
 let blockchain = new Blockchain();
 

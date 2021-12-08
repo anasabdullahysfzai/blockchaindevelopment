@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-const Blockchain = require('./blockchain.js');
-const PubSub = require('./pubsub.js');
+const Blockchain = require('./blockchain');
+const PubSub = require('./app/pubsub.js');
 const axios = require("axios").default;
 
 

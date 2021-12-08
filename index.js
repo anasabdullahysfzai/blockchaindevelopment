@@ -8,9 +8,6 @@ const axios = require("axios").default;
 const blockchain = new Blockchain();
 const pubsub = new PubSub({ blockchain });
 
-setTimeout(() => { pubsub.broadcastBlockchain() }, 1000)
-
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -54,11 +51,13 @@ app.listen(PORT, () => {
     const ROOT_NODE_URL = `http://localhost:${DEFAULT_PORT}`;
 
 
-    let isRootNode = `http://localhost:${PORT}` === ROOT_NODE_URL;
+    let isRootNode = PORT === DEFAULT_PORT;
 
     //If the recently created blockchain network node is not root node then update it with latest chain data
     if (!isRootNode) {
-        axios.get(ROOT_NODE_URL + "/api/blocks")
+        
+        ( function syncChain(){
+            axios.get(ROOT_NODE_URL + "/api/blocks")
             .then((response) => {
 
                 const latestChain = response.data;
@@ -71,5 +70,7 @@ app.listen(PORT, () => {
             }).catch((error) => {
                 console.log(error);
             });
+        })();
+
     }
 });

@@ -50,7 +50,19 @@ class PubSub {
 
     publish({channel,message})
     {
-        this.publisher.publish(channel,message);
+        this.subscriber.unsubscribe(channel,()=>{
+
+            this.publisher.publish(channel,message,()=>{
+
+                //Resubscribe after publish is complete
+
+                this.subscriber.subscribe(channel);
+
+            });
+
+        });
+
+        
     }
 
     broadcastBlockchain()

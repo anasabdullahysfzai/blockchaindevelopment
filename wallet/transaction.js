@@ -6,7 +6,7 @@ class Transaction
     {
        this.id = uuidv4();
        this.outputMap = this.createOutputMap({senderWallet,recepient,amount});
-       this.input = this.createInput(senderWallet,outputMap);
+       this.input = this.createInput(senderWallet,this.outputMap);
     }
 
     createOutputMap({senderWallet,recepient,amount})

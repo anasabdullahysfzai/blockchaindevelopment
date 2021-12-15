@@ -1,6 +1,6 @@
 const Blockchain = require("./index.js");
 const Block = require("./block.js");
-const cryptoHash = require("../util/crypto-hash.js");
+const {cryptoHash} = require("../util");
 
 let blockchain;
 let newChain;

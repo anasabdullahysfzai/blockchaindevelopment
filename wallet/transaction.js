@@ -1,4 +1,5 @@
 const {v4:uuidv4} = require("uuid");
+const {verifySignature} = require("../util");
 
 class Transaction
 {
@@ -27,6 +28,34 @@ class Transaction
             address: senderWallet.publicKey,
             signature: senderWallet.sign(this.outputMap)
         }
+    }
+
+    static validTransaction(transaction)
+    {
+        let outputMapTotalAmount = Object.values(transaction.outputMap).reduce((total,currentValue)=>{
+
+            return total+currentValue;
+
+        });
+
+        //OutputMapTotalAmount should be equal to the input amount(senderWallet balance)
+
+
+        let isOutputMapTampered = outputMapTotalAmount != transaction.input.amount;
+
+        if(isOutputMapTampered)
+        {
+            console.error("outputMap is invalid");
+            return false;
+        }
+
+        if(!verifySignature({publicKey:transaction.input.address,data:transaction.outputMap,signature:transaction.input.signature}))
+        {
+            console.error("input signature is invalid");
+            return false;
+        }
+
+        return true;
     }
 }
 
